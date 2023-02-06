@@ -87,14 +87,30 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-displayMovements(account1.movements);
-
 const calcDisplayBalance = function (account) {
   const balance = account.movements.reduce((acc, cur) => acc + cur, 0);
   labelBalance.textContent = `${balance} EUR`;
 };
 
-calcDisplayBalance(account1);
+const displayIn = function (movements) {
+  const positive = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${positive}€`;
+
+  const negative = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${negative}€`;
+
+  const interests = movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * currentAccount.interestRate) / 100)
+    .filter(mov => mov >= 1)
+    .reduce((acc, int) => acc + int, 0);
+
+  labelSumInterest.textContent = `${interests.toFixed(2)}€`;
+};
 
 const createUsernames = function (accs) {
   accs.forEach(function (acc) {
@@ -107,6 +123,66 @@ const createUsernames = function (accs) {
 };
 
 createUsernames(accounts);
+
+let currentAccount;
+
+btnLogin.addEventListener("click", function (e) {
+  //Prevent form for submiting
+  e.preventDefault();
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // Display UI and message
+
+    inputLoginPin.value = inputLoginUsername.value = " ";
+    inputLoginPin.blur();
+    inputLoginUsername.blur();
+
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(" ")[0]
+    }`;
+
+    containerApp.style.display = "grid";
+
+    // Display movements
+
+    displayMovements(currentAccount.movements);
+
+    // Display balance
+
+    calcDisplayBalance(currentAccount);
+
+    // Display summary
+
+    displayIn(currentAccount.movements);
+  }
+});
+
+btnTransfer.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  console.log(`button clicked`);
+
+  const balanceNow = currentAccount.movements.reduce(
+    (acc, cur) => acc + cur,
+    0
+  );
+
+  const amount = Number(inputTransferAmount.value);
+  const receiver = accounts.find(acc => acc.username === inputTransferTo.value);
+
+  if (amount > 0 && balanceNow >= amount) {
+    currentAccount.movements.push(amount * -1);
+    receiver.movements.push(amount);
+
+    console.log(`money sent`);
+  }
+  displayMovements(currentAccount.movements);
+  calcDisplayBalance(currentAccount);
+  displayIn(currentAccount.movements);
+});
 
 /////////////////////////////////////////////////
 // username list with the 2 letters
@@ -245,7 +321,7 @@ Create a function 'calcAverageHumanAge', which accepts an arrays of dog's ages
 4. Run the function for both test datasets
 
 
-*/
+
 const arrAge1 = [5, 2, 4, 1, 15, 8, 3];
 const arrAge2 = [16, 6, 10, 5, 6, 1, 4];
 //maximum value of the movements array
@@ -265,5 +341,33 @@ const calcAverageHumanAge = function (arr) {
   return avgAge;
 };
 
+// new compressed
+const calcAverageHumanAge = function (arr) {
+  const humanAge = arr
+    .map(x => (x <= 2 ? x * 2 : 16 + x * 4))
+    .filter(age => age >= 18)
+    .reduce((acc, curr, i, arr) => acc + curr / arr.length, 0);
+
+  return humanAge;
+};
+
+
 console.log(calcAverageHumanAge(arrAge1));
 console.log(calcAverageHumanAge(arrAge2));
+
+
+const firtWithdrawl = movements.find(mov => mov < 0);
+
+console.log(movements.indexOf(firtWithdrawl) + 1);
+
+
+const account = accounts.find(acc => acc.owner === "Jessica Davis");
+console.log(account);
+account.balance = account.movements.reduce((acc, mov) => acc + mov, 0);
+
+console.log(account.balance);
+
+
+
+// const account = accounts.find(acc => acc.owner === "Jessica Davis");
+*/
