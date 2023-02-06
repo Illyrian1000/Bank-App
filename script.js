@@ -157,6 +157,7 @@ btnLogin.addEventListener("click", function (e) {
     }`;
 
     containerApp.style.display = "grid";
+    containerApp.style.opacity = 100;
 
     // Display movements
 
@@ -186,6 +187,36 @@ btnTransfer.addEventListener("click", function (e) {
   updateUI(currentAccount);
 });
 
+btnLoan.addEventListener("click", function (e) {
+  e.preventDefault();
+  const loanAmount = Number(inputLoanAmount.value);
+  const loanApprove = currentAccount.movements.some(
+    acc => acc >= loanAmount * 0.1
+  );
+  if (loanAmount > 0 && loanApprove) {
+    currentAccount.movements.push(Number(loanAmount));
+  }
+
+  updateUI(currentAccount);
+});
+
+btnClose.addEventListener("click", function (e) {
+  e.preventDefault();
+  if (
+    currentAccount.username === inputCloseUsername.value &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const number = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    accounts.splice(number, 1);
+    containerApp.style.display = "none";
+    containerApp.style.opacity = 0;
+    inputCloseUsername.value = inputClosePin.value = "";
+  }
+});
+
+movements.some;
 /////////////////////////////////////////////////
 // username list with the 2 letters
 // let firstLetters = [];
