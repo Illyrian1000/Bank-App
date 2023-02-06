@@ -124,6 +124,18 @@ const createUsernames = function (accs) {
 
 createUsernames(accounts);
 
+const updateUI = function (currentAccount) {
+  displayMovements(currentAccount.movements);
+
+  // Display balance
+
+  calcDisplayBalance(currentAccount);
+
+  // Display summary
+
+  displayIn(currentAccount.movements);
+};
+
 let currentAccount;
 
 btnLogin.addEventListener("click", function (e) {
@@ -136,7 +148,7 @@ btnLogin.addEventListener("click", function (e) {
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     // Display UI and message
 
-    inputLoginPin.value = inputLoginUsername.value = " ";
+    inputLoginPin.value = inputLoginUsername.value = "";
     inputLoginPin.blur();
     inputLoginUsername.blur();
 
@@ -148,15 +160,7 @@ btnLogin.addEventListener("click", function (e) {
 
     // Display movements
 
-    displayMovements(currentAccount.movements);
-
-    // Display balance
-
-    calcDisplayBalance(currentAccount);
-
-    // Display summary
-
-    displayIn(currentAccount.movements);
+    updateUI(currentAccount);
   }
 });
 
@@ -179,9 +183,7 @@ btnTransfer.addEventListener("click", function (e) {
 
     console.log(`money sent`);
   }
-  displayMovements(currentAccount.movements);
-  calcDisplayBalance(currentAccount);
-  displayIn(currentAccount.movements);
+  updateUI(currentAccount);
 });
 
 /////////////////////////////////////////////////
