@@ -225,3 +225,200 @@ btnSort.addEventListener("click", function (e) {
   sorted = !sorted;
   displayMovements(currentAccount.movements, sorted);
 });
+
+// const z = Array.from(
+//   { length: 100 },
+//   (arr, i) => Math.floor(Math.random() * 6) + 1
+// );
+
+// // console.log(z);
+// // 1
+// const bankDepositsSum = accounts
+//   .map(arr => arr.movements)
+//   .flat()
+//   .filter(arr => arr > 0)
+//   .reduce((acc, i) => acc + i, 0);
+
+// console.log(bankDepositsSum);
+
+// // 2
+// const numDeposits1000 = accounts
+//   .map(arr => arr.movements)
+//   .flat()
+//   .reduce((count, cur) => (cur >= 1000 ? count + 1 : count), 0);
+
+// console.log(numDeposits1000);
+
+// // 3
+// const sums = accounts
+//   .map(arr => arr.movements)
+//   .flat()
+//   .reduce(
+//     (acc, cur) => {
+//       cur > 0 ? (acc.deposits += cur) : (acc.withdrawls += cur);
+//       return acc;
+//     },
+//     { deposits: 0, withdrawls: 0 }
+//   );
+
+// console.log(sums);
+
+// 4
+// this is a nice title
+
+// const convertTitleCase = function (string) {
+//   const words = string.toLowerCase().split(" ");
+
+//   const sentence = [];
+
+//   words.forEach(item => {
+//     item = item.charAt(0).toUpperCase() + item.slice(1);
+//     sentence.push(item);
+//   });
+
+//   return sentence.join(" ");
+// };
+
+// console.log(
+//   convertTitleCase("this is a test and i am trying to make sure that it works")
+// );
+/*
+Julia and Kate are still studying dogs, and this time they are studying if dogs
+ are eating too much or too little.
+Eating too much means the dog's current food portion is larger than the 
+recommended portion, and eating too little is the opposite.
+Eating an okay amount means the dog's current food portion is within a range
+ 10% above and 10% below the recommended portion (see hint).
+
+1. Loop over the array containing dog objects, and for each dog, calculate the
+ recommended food portion and add it to the object as a new property. Do NOT 
+ create a new array, simply loop over the array. 
+ Forumla: recommendedFood = weight ** 0.75 * 28. (The result is in grams of food, 
+  and the weight needs to be in kg)
+
+2. Find Sarah's dog and log to the console whether it's eating too much or too
+little. HINT: Some dogs have multiple owners, so you first need to find Sarah in the 
+owners array, and so this one is a bit tricky (on purpose) 🤓
+
+3. Create an array containing all owners of dogs who eat too much ('ownersEatTooMuch') 
+and an array with all owners of dogs who eat too little ('ownersEatTooLittle').
+
+4. Log a string to the console for each array created in 3., like this: "Matilda and
+ Alice and Bob's dogs eat too much!" and "Sarah and John and Michael's dogs eat too 
+ little!"
+
+ 5. Log to the console whether there is any dog eating EXACTLY the amount of food
+ that is recommended (just true or false)
+
+ 6. Log to the console whether there is any dog eating an OKAY amount of food 
+(just true or false)
+
+7. Create an array containing the dogs that are eating an OKAY amount of food 
+(try to reuse the condition used in 6.)
+
+8. Create a shallow copy of the dogs array and sort it by recommended food 
+portion in an ascending order (keep in mind that the portions are inside the
+   array's objects)
+
+   HINT 1: Use many different tools to solve these challenges, you can use the summary lecture to choose between them 😉
+HINT 2: Being within a range 10% above and below the recommended portion means: current > (recommended * 0.90) && current < (recommended * 1.10). Basically, the current portion should be between 90% and 110% of the recommended portion.
+
+TEST DATA:
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] }
+];
+
+*/
+
+const dogs = [
+  { weight: 22, curFood: 250, owners: ["Alice", "Bob"] },
+  { weight: 8, curFood: 200, owners: ["Matilda"] },
+  { weight: 13, curFood: 275, owners: ["Sarah", "John"] },
+  { weight: 32, curFood: 340, owners: ["Michael"] },
+];
+
+let users = [];
+
+dogs.forEach(dog => {
+  users.push(dog.owners);
+  users = users.flat();
+});
+
+// recommendedFood = weight ** 0.75 * 28
+
+// 1 - Added the recommendedFood to the object
+dogs.forEach(dog => {
+  dog.recommendedFood = dog.weight ** 0.75 * 28;
+  dog.min = dog.recommendedFood * 0.9;
+  dog.max = dog.recommendedFood * 1.1;
+});
+
+//8
+
+const dogsCopy = dogs.slice();
+
+// //2
+
+// const checkDog = function (user) {
+//   user.forEach(owner => {
+//     dogs.forEach(dog => {
+//       if (dog.owners.includes(owner)) {
+//         if (dog.curFood >= dog.min && dog.curFood <= dog.max) {
+//           console.log(`${owner}'s dog is eating the right amount`);
+//         } else if (dog.curFood >= dog.max) {
+//           console.log(
+//             `Eating to much ${
+//               dog.curFood
+//             }. The recommended amount is ${Math.floor(dog.recommendedFood)}`
+//           );
+//         } else {
+//           console.log(
+//             `Eating to little ${
+//               dog.curFood
+//             }. The recommended amount is ${Math.floor(dog.recommendedFood)}`
+//           );
+//         }
+//       }
+//     });
+//   });
+// };
+
+// checkDog(users);
+
+// //3
+// const ownersEatTooLittle = [];
+// const ownersEatTooMuch = [];
+
+// const owners = function (dogs) {
+//   users.flat().forEach(user => {
+//     dogs.forEach(dog => {
+//       if (dog.owners.includes(user)) {
+//         if (dog.curFood > dog.max) {
+//           ownersEatTooMuch.push(user);
+//         } else if (dog.curFood < dog.min) {
+//           ownersEatTooMuch.push(user);
+//         }
+//       }
+//     });
+//   });
+
+//   console.log(`To Little: ${ownersEatTooLittle}`);
+//   console.log(`To Much: ${ownersEatTooMuch}`);
+// };
+
+// owners(dogs);
+
+// const toMuchUsers = function () {
+//   const printUsers = ownersEatTooMuch.slice();
+//   const lastUser = printUsers.slice(printUsers.length - 1);
+//   printUsers.pop();
+//   printUsers.push("and");
+//   printUsers.push(lastUser);
+
+//   console.log(`The dogs of ${printUsers.join(", ")} eat to much`);
+// };
+
+// toMuchUsers();
