@@ -358,8 +358,11 @@ dogs.forEach(dog => {
 
 //8
 
-const dogsCopy = dogs.slice();
+const dogsCopy = dogs
+  .slice()
+  .sort((a, b) => a.recommendedFood - b.recommendedFood);
 
+console.log(dogsCopy);
 // //2
 
 // const checkDog = function (user) {
