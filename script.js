@@ -331,7 +331,7 @@ const dogs = [
   { weight: 32, curFood: 340, owners: ['Michael'] }
 ];
 
-*/
+
 
 const dogs = [
   { weight: 22, curFood: 250, owners: ["Alice", "Bob"] },
@@ -363,6 +363,8 @@ const dogsCopy = dogs
   .sort((a, b) => a.recommendedFood - b.recommendedFood);
 
 console.log(dogsCopy);
+
+*/
 // //2
 
 // const checkDog = function (user) {
@@ -425,3 +427,5 @@ console.log(dogsCopy);
 // };
 
 // toMuchUsers();
+
+// const test = (min, max) => Math.trunc(Math.random() * (max - min + 1) + min);
